@@ -1,0 +1,32 @@
+NAME = philosophers
+
+HEADER = philosophers.h
+SRCS =  main.c \
+		error_free.c \
+		ft_atoi.c \
+		parsing.c \
+		init.c \
+
+OBJS = $(SRCS:.c=.o)
+
+CC = gcc
+FLAGS = -Wextra -Werror -Wall
+RM = rm -f
+
+all : $(NAME)
+ 
+%.o : %.c $(HEADER)
+	$(CC) $(FLAGS) -c $< -o $@
+
+$(NAME) : $(OBJS) $(HEADER)
+		$(CC) $(FLAGS) -o $@ $(OBJS)
+
+clean :
+		$(RM) $(OBJS)
+
+fclean : clean
+		$(RM) $(NAME)
+
+re : fclean all
+
+.PHONY : clean fclean re all run
