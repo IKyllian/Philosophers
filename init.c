@@ -10,7 +10,7 @@ t_philo	init_struct_philo(int id, t_data *datas)
 	philo.start_eating = 0;
 	philo.start_sleeping = 0;
 	philo.eat_counter = 0;
-	philo.last_eat = 0;
+	philo.last_eat = -1;
 	philo.timer = 0;
 	philo.is_dead = 0;
 	philo.datas = datas;
@@ -50,6 +50,31 @@ int	init_tabs(t_data *datas)
 	while (i < datas->philos_nb)
 	{
 		datas->philo[i] = init_struct_philo(i + 1, datas);
+		i++;
+	}
+	i = 0;
+	while (i < datas->philos_nb)
+	{
+		pthread_mutex_init(&datas->fork[i], NULL);
+		i++;
+	}
+	return (0);
+}
+
+int	create_philo_thread(t_data *datas)
+{
+	long	i;
+
+	i = 0;
+	datas->start_time = get_time(datas);
+	while (i < datas->philos_nb)
+	{
+		if (pthread_create(&datas->philo[i].thread_philo, NULL, philo_routine,
+			(void *)&datas->philo[i]) != 0)
+		{
+			printf("Error with the thread creation\n");
+			return (1);
+		}
 		i++;
 	}
 	return (0);

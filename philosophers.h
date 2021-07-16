@@ -36,12 +36,20 @@ typedef struct s_data
 }				t_data;
 
 /*			Parsing			*/
-int		ft_atoi(const char *nptr);
-int		parsing(char **argv, t_data *datas);
+int			ft_atoi(const char *nptr);
+int			parsing(char **argv, t_data *datas);
 
 /*			Init			*/
-int		init_tabs(t_data *datas);
-t_data	init_struct(void);
-t_philo	init_struct_philo(int id, t_data *datas);
+int			init_tabs(t_data *datas);
+t_data		init_struct(void);
+t_philo		init_struct_philo(int id, t_data *datas);
+int			create_philo_thread(t_data *datas);
+
+void		*philo_routine(void *param);
+
+uint64_t	get_time(t_data *datas);
+void		philo_action(t_philo *philo, char *action);
+int			get_index(t_philo *philo);
+
 
 #endif
