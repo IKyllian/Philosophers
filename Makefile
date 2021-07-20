@@ -3,7 +3,6 @@ NAME = philosophers
 HEADER = philosophers.h
 SRCS =  main.c \
 		error_free.c \
-		ft_atoi.c \
 		parsing.c \
 		init.c \
 		utils.c \

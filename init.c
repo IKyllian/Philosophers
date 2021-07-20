@@ -5,14 +5,13 @@ t_philo	init_struct_philo(int id, t_data *datas)
 	t_philo philo;
 
 	philo.id = id;
-	philo.is_eating = 0;
-	philo.is_sleeping = 0;
-	philo.start_eating = 0;
-	philo.start_sleeping = 0;
 	philo.eat_counter = 0;
+	philo.left_fork = id - 1;
+	if (id >= datas->philos_nb)
+		philo.right_fork = 0;
+	else
+		philo.right_fork = id;
 	philo.last_eat = -1;
-	philo.timer = 0;
-	philo.is_dead = 0;
 	philo.datas = datas;
 	return (philo);
 }
@@ -26,7 +25,10 @@ t_data	init_struct(void)
 	datas.t_to_eat = 0;
 	datas.t_to_sleep = 0;
 	datas.philos_nb = 0;
-	datas.nb_must_eat = -1;	
+	datas.is_dead = 0;
+	datas.nb_must_eat = -1;
+	pthread_mutex_init(&datas.death, NULL);
+	pthread_mutex_init(&datas.message, NULL);
 	return (datas);
 }
 

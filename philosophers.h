@@ -10,15 +10,12 @@
 typedef struct s_philo
 {
 	int				id;
-	uint64_t		timer;
 	uint64_t		last_eat;
-	int				is_eating;
-	int				is_sleeping;
 	int				eat_counter;
-	uint64_t		start_eating;
-	uint64_t		start_sleeping;
+	int				right_fork;
+	int				left_fork;
 	pthread_t		thread_philo;
-	int				is_dead;
+	
 	struct s_data	*datas;
 }				t_philo;
 
@@ -32,6 +29,9 @@ typedef struct s_data
 	uint64_t		t_to_die;
 	int				nb_must_eat;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t	death;
+	int				is_dead;
+	pthread_mutex_t	message;
 	struct timeval	tv;
 }				t_data;
 

@@ -1,56 +1,55 @@
 #include "philosophers.h"
 
+void	kill_philos(t_data *datas)
+{
+	int	i;
+
+	i = 0;
+	while (i < datas->philos_nb)
+	{
+		pthread_detach(datas->philo[i].thread_philo);
+		i++;
+	}
+}
+
 int	philo_eat(t_philo *philo)
 {
-	int	max;
-
-	max = get_index(philo);
 	if (philo->last_eat != (uint64_t)-1 && ((get_time(philo->datas) - \
 		philo->datas->start_time) - philo->last_eat) >= philo->datas->t_to_die)
 	{
-		philo->is_dead = 1;
+		philo_action(philo, "died");
+		philo->datas->is_dead = 1;
 		return (1);
 	}
-	if (pthread_mutex_lock(&philo->datas->fork[philo->id - 1]) != 0)
-		return (1);
-	if (pthread_mutex_lock(&philo->datas->fork[max]) != 0)
-		return (1);
 	philo_action(philo, "eating");
-	philo->is_eating = 1;
-	philo->start_eating = get_time(philo->datas) - philo->datas->start_time;
-	philo->eat_counter++;
+	philo->last_eat = get_time(philo->datas) - philo->datas->start_time;
 	if (usleep(philo->datas->t_to_eat * 1000) == -1)
 		return (1);
-	if (pthread_mutex_unlock(&philo->datas->fork[philo->id - 1]) != 0)
-		return (1);
-	if (pthread_mutex_unlock(&philo->datas->fork[max]) != 0)
-		return (1);
+	philo->eat_counter++;
+	
 	return (0);
 }
 
-int	set_philo_status(t_philo *philo)
+int	take_forks(t_philo *philo)
 {
-	if (!philo->is_eating && !philo->is_sleeping)
-	{
-		philo_eat(philo);
-	}
-	else if (philo->is_eating)
-	{
-		philo_action(philo, "sleeping");
-		philo->is_eating = 0;
-		philo->is_sleeping = 1;
-		philo->last_eat = get_time(philo->datas) - philo->datas->start_time;
-		philo->start_sleeping = get_time(philo->datas) - philo->datas->start_time;
-		if (usleep(philo->datas->t_to_sleep * 1000) == -1)
-			return (1);
-		if (philo->last_eat != (uint64_t)-1 && ((get_time(philo->datas) - philo->datas->start_time) - philo->last_eat) >= philo->datas->t_to_die)
-		{
-			philo->is_dead = 1;
-			return (1);
-		}
-		philo_action(philo, "thinking");
-		philo->is_sleeping = 0;
-	}
+	if (pthread_mutex_lock(&philo->datas->fork[philo->left_fork]) != 0)
+		return (1);
+	// philo_action(philo, "has taken a fork");	
+	if (pthread_mutex_lock(&philo->datas->fork[philo->right_fork]) != 0)
+		return (1);
+	// philo_action(philo, "has taken a fork");
+	return (0);
+}
+
+int	clean_forks(t_philo *philo)
+{
+	philo_action(philo, "sleeping");
+	if (pthread_mutex_unlock(&philo->datas->fork[philo->left_fork]) != 0)
+		return (1);
+	if (pthread_mutex_unlock(&philo->datas->fork[philo->right_fork]) != 0)
+		return (1);
+	if (usleep(philo->datas->t_to_sleep * 1000) == -1)
+		return (1);
 	return (0);
 }
 
@@ -61,13 +60,17 @@ void	*philo_routine(void *param)
 
 	philo = (t_philo *)param;
 	i = 0;
-	while (!philo->is_dead || (!philo->is_dead
+	while (!philo->datas->is_dead || (!philo->datas->is_dead
 		&& (philo->datas->nb_must_eat > 0
 		&& philo->eat_counter < philo->datas->nb_must_eat)))
 	{
-		set_philo_status(philo);
+		take_forks(philo);
+		if (philo_eat(philo))
+			return (NULL);
+		clean_forks(philo);
+		philo_action(philo, "thinking");
 	}
-	printf("%lli Philo %i died\n", get_time(philo->datas) - philo->datas->start_time, philo->id);
+	// printf("%lli Philo %i died\n", get_time(philo->datas) - philo->datas->start_time, philo->id);
 	return (NULL);
 }
 
@@ -87,12 +90,12 @@ int	philo_thread_join(t_data *datas)
 		}
 		i++;
 	}
-	i = 0;
-	while (i < datas->philos_nb)
-	{
-		pthread_mutex_destroy(&datas->fork[i]);
-		i++;
-	}
+	// i = 0;
+	// while (i < datas->philos_nb)
+	// {
+	// 	pthread_mutex_destroy(&datas->fork[i]);
+	// 	i++;
+	// }
 	return (0);
 }
 
@@ -111,6 +114,7 @@ int	main(int argc, char **argv)
 				return (1);
 			if (philo_thread_join(&datas))
 				return (1);
+			kill_philos(&datas);
 			return (0);
 		}
 		else
