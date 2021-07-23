@@ -6,6 +6,7 @@ SRCS =  main.c \
 		parsing.c \
 		init.c \
 		utils.c \
+		action.c
 
 OBJS = $(SRCS:.c=.o)
 

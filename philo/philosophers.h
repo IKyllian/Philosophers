@@ -15,7 +15,6 @@ typedef struct s_philo
 	int				right_fork;
 	int				left_fork;
 	pthread_t		thread_philo;
-	
 	struct s_data	*datas;
 }				t_philo;
 
@@ -29,27 +28,33 @@ typedef struct s_data
 	uint64_t		t_to_die;
 	int				nb_must_eat;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	death;
 	int				is_dead;
 	pthread_mutex_t	message;
 	struct timeval	tv;
 }				t_data;
 
+/*			Init			*/
+int			init_tabs(t_data *datas);
+int			init_struct(t_data *datas);
+t_philo		init_struct_philo(int id, t_data *datas);
+int			create_philo_thread(t_data *datas);
+void		*philo_routine(void *param);
+
 /*			Parsing			*/
 int			ft_atoi(const char *nptr);
 int			parsing(char **argv, t_data *datas);
 
-/*			Init			*/
-int			init_tabs(t_data *datas);
-t_data		init_struct(void);
-t_philo		init_struct_philo(int id, t_data *datas);
-int			create_philo_thread(t_data *datas);
-
-void		*philo_routine(void *param);
-
+/*			Utils			*/
 uint64_t	get_time(t_data *datas);
 void		philo_action(t_philo *philo, char *action);
 int			get_index(t_philo *philo);
 
+/*			Actions			*/
+int			philo_eat(t_philo *philo);
+int			take_forks(t_philo *philo);
+int			clean_forks(t_philo *philo);
+
+/*			Free / Error			*/
+void		free_elems(t_data *datas);
 
 #endif
