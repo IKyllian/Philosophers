@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+#include <semaphore.h>
 
 typedef struct s_philo
 {
@@ -27,9 +28,9 @@ typedef struct s_data
 	uint64_t		t_to_sleep;
 	uint64_t		t_to_die;
 	int				nb_must_eat;
-	pthread_mutex_t	*fork;
+	sem_t			*fork;
 	int				is_dead;
-	pthread_mutex_t	message;
+	sem_t			*message;
 	struct timeval	tv;
 }				t_data;
 

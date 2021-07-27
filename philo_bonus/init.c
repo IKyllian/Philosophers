@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:20 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/27 15:04:44 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/07/27 15:19:53 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,11 @@ int	init_struct(t_data *datas)
 	new.philos_nb = 0;
 	new.is_dead = 0;
 	new.nb_must_eat = -1;
-	if (pthread_mutex_init(&new.message, NULL) != 0)
-	{
-		printf("Error with mutex init");
-		return (1);
-	}
+	new.message = sem_open("message", O_CREAT, O_CREAT, 0);
 	*datas = new;
 	return (0);
 }
 
-int	init_forks_mutex(t_data *datas)
-{
-	int	i;
-
-	i = 0;
-	while (i < datas->philos_nb)
-	{
-		if (pthread_mutex_init(&datas->fork[i], NULL) != 0)
-		{
-			printf("Error with mutex init");
-			return (1);
-		}	
-		i++;
-	}
-	return (0);
-}
 
 int	init_tabs(t_data *datas)
 {
@@ -76,19 +56,11 @@ int	init_tabs(t_data *datas)
 		printf("Error: Alloc memory\n");
 		return (1);
 	}
-	datas->fork = malloc(sizeof(pthread_mutex_t) * datas->philos_nb);
-	if (!datas->fork)
-	{
-		printf("Error: Alloc memory\n");
-		return (1);
-	}
 	while (i < datas->philos_nb)
 	{
 		datas->philo[i] = init_struct_philo(i + 1, datas);
 		i++;
 	}
-	if (init_forks_mutex(datas) != 0)
-		return (1);
 	return (0);
 }
 

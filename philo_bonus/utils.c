@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:48:41 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/26 13:31:02 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/07/27 15:17:35 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,7 @@ uint64_t	get_time(t_data *datas)
 
 int	philo_action(t_philo *philo, char *action)
 {
-	if (pthread_mutex_lock(&philo->datas->message) != 0)
-	{
-		printf("Error with mutex unlock\n");
-		return (1);
-	}
+	sem_wait(philo->datas->message);
 	if (!philo->datas->is_dead)
 	{
 		ft_putnbr(get_time(philo->datas) - philo->datas->start_time);
@@ -81,11 +77,7 @@ int	philo_action(t_philo *philo, char *action)
 		ft_putstr(action);
 		ft_putstr("\n");
 	}
-	if (pthread_mutex_unlock(&philo->datas->message) != 0)
-	{
-		printf("Error with mutex unlock\n");
-		return (1);
-	}
+	sem_post(philo->datas->message);
 	return (0);
 }
 

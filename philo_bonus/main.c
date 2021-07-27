@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/27 12:47:49 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/07/27 15:14:22 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	main(int argc, char **argv)
 			return (1);
 		if (parsing(argv, &datas) && datas.philos_nb >= 2)
 		{
+			datas.fork = sem_open("fork", O_CREAT, O_CREAT, datas.philos_nb);
 			if (init_tabs(&datas))
 				return (1);
 			if (create_philo_thread(&datas))
