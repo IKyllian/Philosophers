@@ -7,6 +7,8 @@
 # include <sys/time.h>
 # include <pthread.h>
 #include <semaphore.h>
+#include <errno.h>
+#include <string.h>
 
 typedef struct s_philo
 {
@@ -15,6 +17,7 @@ typedef struct s_philo
 	int				eat_counter;
 	int				right_fork;
 	int				left_fork;
+	uint64_t		death_limit;
 	pthread_t		thread_philo;
 	struct s_data	*datas;
 }				t_philo;
@@ -40,6 +43,7 @@ int			init_struct(t_data *datas);
 t_philo		init_struct_philo(int id, t_data *datas);
 int			create_philo_thread(t_data *datas);
 void		*philo_routine(void *param);
+char		*get_name(char *name);
 
 /*			Parsing			*/
 int			ft_atoi(const char *nptr);

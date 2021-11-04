@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/27 12:47:49 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/04 11:43:11 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	*philo_routine(void *param)
 
 int		philo_is_dead(t_data *datas, int i)
 {
-	if (datas->philo[i].last_eat != (uint64_t)-1 && ((get_time(datas) - \
-		datas->start_time) - datas->philo[i].last_eat) >= datas->t_to_die)
+	if (datas->philo[i].last_eat != -1
+		&& datas->philo[i].death_limit < get_time(datas))
 	{
 		if (philo_action(&datas->philo[i], " died") != 0)
 			return (1);

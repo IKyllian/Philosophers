@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:49:54 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/27 15:16:09 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/08/11 12:28:44 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int	philo_eat(t_philo *philo)
 {
+	philo->last_eat = get_time(philo->datas) - philo->datas->start_time;
+	philo->death_limit = get_time(philo->datas) + philo->datas->t_to_die;
 	if (philo_action(philo, " is eating") != 0)
 		return (1);
-	philo->last_eat = get_time(philo->datas) - philo->datas->start_time;
 	if (usleep(philo->datas->t_to_eat * 1000) == -1)
 		return (1);
 	philo->eat_counter++;

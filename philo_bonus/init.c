@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:20 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/27 15:19:53 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/08/12 12:01:59 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	init_struct(t_data *datas)
 	new.philos_nb = 0;
 	new.is_dead = 0;
 	new.nb_must_eat = -1;
-	new.message = sem_open("message", O_CREAT, O_CREAT, 0);
+	sem_unlink("message");
+	new.message = sem_open("message", O_CREAT, S_IRWXU, 1);
 	*datas = new;
 	return (0);
 }
@@ -72,6 +73,7 @@ int	create_philo_thread(t_data *datas)
 	datas->start_time = get_time(datas);
 	while (i < datas->philos_nb)
 	{
+		datas->philo[i++].death_limit = get_time(datas) + datas->t_to_die;
 		if (pthread_create(&datas->philo[i].thread_philo, NULL, philo_routine,
 			(void *)&datas->philo[i]) != 0)
 		{

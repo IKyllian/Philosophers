@@ -1,4 +1,4 @@
-NAME = philosophers
+NAME = philo
 
 HEADER = philosophers.h
 SRCS =  main.c \

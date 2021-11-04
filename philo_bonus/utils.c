@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:48:41 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/27 15:17:35 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/07/29 12:45:52 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,12 @@ uint64_t	get_time(t_data *datas)
 
 int	philo_action(t_philo *philo, char *action)
 {
-	sem_wait(philo->datas->message);
+	errno = 0;
+	if (sem_wait(philo->datas->message) != 0)
+	{
+		printf("Error with sem wait | %s\n", strerror(errno));
+	
+	}
 	if (!philo->datas->is_dead)
 	{
 		ft_putnbr(get_time(philo->datas) - philo->datas->start_time);
@@ -77,7 +82,8 @@ int	philo_action(t_philo *philo, char *action)
 		ft_putstr(action);
 		ft_putstr("\n");
 	}
-	sem_post(philo->datas->message);
+	if (sem_post(philo->datas->message) != 0)
+		printf("Error with sem post\n");
 	return (0);
 }
 

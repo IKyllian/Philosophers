@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/27 15:14:22 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/08/11 18:52:33 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	*philo_routine(void *param)
 
 int		philo_is_dead(t_data *datas, int i)
 {
-	if (datas->philo[i].last_eat != (uint64_t)-1 && ((get_time(datas) - \
-		datas->start_time) - datas->philo[i].last_eat) >= datas->t_to_die)
+	if (datas->philo[i].last_eat != (uint64_t)-1
+		&& datas->philo[i].death_limit < get_time(datas))
 	{
 		if (philo_action(&datas->philo[i], " died") != 0)
 			return (1);
@@ -112,7 +112,8 @@ int	main(int argc, char **argv)
 			return (1);
 		if (parsing(argv, &datas) && datas.philos_nb >= 2)
 		{
-			datas.fork = sem_open("fork", O_CREAT, O_CREAT, datas.philos_nb);
+			sem_unlink("fork");
+			datas.fork = sem_open("fork", O_CREAT, S_IRWXU, datas.philos_nb);
 			if (init_tabs(&datas))
 				return (1);
 			if (create_philo_thread(&datas))

@@ -10,10 +10,11 @@
 typedef struct s_philo
 {
 	int				id;
-	uint64_t		last_eat;
+	int				last_eat;
 	int				eat_counter;
 	int				right_fork;
 	int				left_fork;
+	uint64_t		death_limit;
 	pthread_t		thread_philo;
 	struct s_data	*datas;
 }				t_philo;
