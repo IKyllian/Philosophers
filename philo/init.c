@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:20 by kdelport          #+#    #+#             */
-/*   Updated: 2021/08/11 12:43:21 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:21:43 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	init_tabs(t_data *datas)
 	if (!datas->fork)
 	{
 		printf("Error: Alloc memory\n");
+		free(datas->philo);
 		return (1);
 	}
 	while (i < datas->philos_nb)
@@ -100,7 +101,7 @@ int	create_philo_thread(t_data *datas)
 	datas->start_time = get_time(datas);
 	while (i < datas->philos_nb)
 	{
-		datas->philo[i++].death_limit = get_time(datas) + datas->t_to_die;
+		datas->philo[i].death_limit = get_time(datas) + datas->t_to_die;
 		if (pthread_create(&datas->philo[i].thread_philo, NULL, philo_routine,
 			(void *)&datas->philo[i]) != 0)
 		{

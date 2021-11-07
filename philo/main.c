@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/04 11:43:11 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:08:27 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*philo_routine(void *param)
 	philo = (t_philo *)param;
 	i = 0;
 	if (philo->id % 2)
-		usleep(10000);
+		usleep(8000);
 	while ((!philo->datas->is_dead && philo->datas->nb_must_eat == -1)
 		|| (!philo->datas->is_dead && philo->datas->nb_must_eat != -1
 		&& philo->eat_counter < philo->datas->nb_must_eat))

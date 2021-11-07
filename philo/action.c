@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:49:54 by kdelport          #+#    #+#             */
-/*   Updated: 2021/08/11 12:28:44 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/04 13:28:58 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int	take_forks(t_philo *philo)
 
 int	clean_forks(t_philo *philo)
 {
-	if (philo_action(philo, " is sleeping") != 0)
-		return (1);
 	if (pthread_mutex_unlock(&philo->datas->fork[philo->left_fork]) != 0)
 		return (1);
 	if (pthread_mutex_unlock(&philo->datas->fork[philo->right_fork]) != 0)
+		return (1);
+	if (philo_action(philo, " is sleeping") != 0)
 		return (1);
 	if (usleep(philo->datas->t_to_sleep * 1000) == -1)
 		return (1);
