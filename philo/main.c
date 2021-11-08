@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/04 13:08:27 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/08 12:08:11 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*philo_routine(void *param)
 	philo = (t_philo *)param;
 	i = 0;
 	if (philo->id % 2)
-		usleep(8000);
+		usleep(1000);
 	while ((!philo->datas->is_dead && philo->datas->nb_must_eat == -1)
 		|| (!philo->datas->is_dead && philo->datas->nb_must_eat != -1
 		&& philo->eat_counter < philo->datas->nb_must_eat))
@@ -30,16 +30,13 @@ void	*philo_routine(void *param)
 			return (NULL);
 		if (clean_forks(philo) == 1)
 			return (NULL);
-		if (philo_action(philo, " is thinking") != 0)
-			return (NULL);
 	}
 	return (NULL);
 }
 
 int		philo_is_dead(t_data *datas, int i)
 {
-	if (datas->philo[i].last_eat != -1
-		&& datas->philo[i].death_limit < get_time(datas))
+	if (get_time(datas->philo[i].last_eat) > (uint64_t)datas->t_to_die)
 	{
 		if (philo_action(&datas->philo[i], " died") != 0)
 			return (1);
@@ -82,29 +79,9 @@ int	check_death(t_data *datas)
 	return (0);
 }
 
-// int	join_philo(t_data *datas)
-// {
-// 	int		i;
-// 	void	*ret;
-	
-// 	i = 0;
-// 	while (i < datas->philos_nb)
-// 	{
-// 		ret = NULL;
-// 		if (pthread_join(datas->philo[i].thread_philo, ret) != 0)
-// 		{
-// 			printf("Error with join | i = %i\n", i);
-// 			return (1);
-// 		}	
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 int	main(int argc, char **argv)
 {
 	t_data	datas;
-	// int		ret;
 
 	if (argc >= 5 && argc <= 6)
 	{
@@ -114,13 +91,12 @@ int	main(int argc, char **argv)
 		{
 			if (init_tabs(&datas))
 				return (1);
+			gettimeofday(&datas.start_time, NULL);
 			if (create_philo_thread(&datas))
 				return (1);
 			check_death(&datas);
-			// ret = check_death(&datas);
-			// join_philo(&datas);
-			// if (ret == datas.philos_nb)
-				// printf("Each philosophers ate %i times\n", datas.nb_must_eat);
+			while (datas.philos_nb--)
+				pthread_join(datas.philo[datas.philos_nb].thread_philo, NULL);
 			free_elems(&datas);
 			return (0);
 		}

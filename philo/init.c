@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:20 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/04 13:21:43 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/08 11:08:51 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_philo	init_struct_philo(int id, t_data *datas)
 		philo.right_fork = 0;
 	else
 		philo.right_fork = id;
-	philo.last_eat = -1;
 	philo.datas = datas;
 	return (philo);
 }
@@ -98,10 +97,9 @@ int	create_philo_thread(t_data *datas)
 	long	i;
 
 	i = 0;
-	datas->start_time = get_time(datas);
 	while (i < datas->philos_nb)
 	{
-		datas->philo[i].death_limit = get_time(datas) + datas->t_to_die;
+		datas->philo[i].last_eat = datas->start_time;
 		if (pthread_create(&datas->philo[i].thread_philo, NULL, philo_routine,
 			(void *)&datas->philo[i]) != 0)
 		{
