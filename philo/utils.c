@@ -6,11 +6,11 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:48:41 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/08 12:21:32 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/09 09:33:23 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "./include/philosophers.h"
 
 int	ft_atoi(const char *nptr)
 {
@@ -30,6 +30,8 @@ int	ft_atoi(const char *nptr)
 		else
 			return (-1);
 	}
+	if (nbr < 0 || nbr > 2147483647)
+		return (-1);
 	return (nbr);
 }
 
@@ -91,5 +93,3 @@ int	philo_action(t_philo *philo, char *action)
 	}
 	return (0);
 }
-
-

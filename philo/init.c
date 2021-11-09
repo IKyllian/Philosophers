@@ -6,11 +6,11 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:20 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/08 11:08:51 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/09 08:51:59 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "./include/philosophers.h"
 
 t_philo	init_struct_philo(int id, t_data *datas)
 {

@@ -6,11 +6,11 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/08 12:08:11 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/09 09:26:12 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "./include/philosophers.h"
 
 void	*philo_routine(void *param)
 {
@@ -25,7 +25,8 @@ void	*philo_routine(void *param)
 		|| (!philo->datas->is_dead && philo->datas->nb_must_eat != -1
 		&& philo->eat_counter < philo->datas->nb_must_eat))
 	{
-		take_forks(philo);
+		if (take_forks(philo) == 1)
+			return (NULL);
 		if (philo_eat(philo))
 			return (NULL);
 		if (clean_forks(philo) == 1)
@@ -46,7 +47,7 @@ int		philo_is_dead(t_data *datas, int i)
 	return (0);
 }
 
-int	check_death(t_data *datas)
+void	check_death(t_data *datas)
 {
 	int	i;
 	int	exit;
@@ -72,11 +73,14 @@ int	check_death(t_data *datas)
 		}
 	}
 	if (datas->nb_must_eat != -1 && exit == datas->philos_nb)
-	{
 		printf("Each philosophers ate %i times\n", datas->nb_must_eat);
-		return (exit);
-	}	
-	return (0);
+}
+
+void	end_of_prog(t_data *datas)
+{
+	while (datas->philos_nb--)
+		pthread_join(datas->philo[datas->philos_nb].thread_philo, NULL);
+	free_elems(datas);
 }
 
 int	main(int argc, char **argv)
@@ -95,9 +99,7 @@ int	main(int argc, char **argv)
 			if (create_philo_thread(&datas))
 				return (1);
 			check_death(&datas);
-			while (datas.philos_nb--)
-				pthread_join(datas.philo[datas.philos_nb].thread_philo, NULL);
-			free_elems(&datas);
+			end_of_prog(&datas);
 			return (0);
 		}
 		else

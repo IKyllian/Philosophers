@@ -6,11 +6,11 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:32 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/23 13:50:33 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/09 08:52:00 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "./include/philosophers.h"
 
 int	parsing(char **argv, t_data *datas)
 {
