@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:48:41 by kdelport          #+#    #+#             */
-/*   Updated: 2021/07/29 12:45:52 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/09 10:03:59 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,16 @@ void	ft_putnbr(uint64_t nb)
 	}	
 }
 
-uint64_t	get_time(t_data *datas)
+uint64_t	get_time(struct timeval timeval)
 {
-	uint64_t	ms;
+	uint64_t		time;
+	uint64_t		time2;
+	struct timeval	current;
 
-	gettimeofday(&datas->tv, NULL);
-	ms = (datas->tv.tv_sec) * 1000 + (datas->tv.tv_usec) / 1000;
-	return (ms);
+	gettimeofday(&current, NULL);
+	time = (uint64_t)(timeval.tv_sec * 1000) + (timeval.tv_usec / 1000);
+	time2 = (uint64_t)(current.tv_sec * 1000) + (current.tv_usec / 1000);
+	return (time2 - time);
 }
 
 int	philo_action(t_philo *philo, char *action)
@@ -76,7 +79,7 @@ int	philo_action(t_philo *philo, char *action)
 	}
 	if (!philo->datas->is_dead)
 	{
-		ft_putnbr(get_time(philo->datas) - philo->datas->start_time);
+		ft_putnbr(get_time(philo->datas->start_time));
 		ft_putstr("\t");
 		ft_putnbr((uint64_t)philo->id);
 		ft_putstr(action);

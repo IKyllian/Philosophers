@@ -8,17 +8,18 @@
 # include <pthread.h>
 #include <semaphore.h>
 #include <errno.h>
+#include <signal.h>
 #include <string.h>
 
 typedef struct s_philo
 {
 	int				id;
-	uint64_t		last_eat;
+	struct timeval	last_eat;
 	int				eat_counter;
 	int				right_fork;
 	int				left_fork;
-	uint64_t		death_limit;
 	pthread_t		thread_philo;
+	pid_t			pid;
 	struct s_data	*datas;
 }				t_philo;
 
@@ -26,7 +27,7 @@ typedef struct s_data
 {
 	t_philo			*philo;
 	int				philos_nb;
-	uint64_t		start_time;
+	struct timeval	start_time;
 	uint64_t		t_to_eat;
 	uint64_t		t_to_sleep;
 	uint64_t		t_to_die;
@@ -34,7 +35,6 @@ typedef struct s_data
 	sem_t			*fork;
 	int				is_dead;
 	sem_t			*message;
-	struct timeval	tv;
 }				t_data;
 
 /*			Init			*/
@@ -50,14 +50,16 @@ int			ft_atoi(const char *nptr);
 int			parsing(char **argv, t_data *datas);
 
 /*			Utils			*/
-uint64_t	get_time(t_data *datas);
+uint64_t	get_time(struct timeval timeval);
 int			philo_action(t_philo *philo, char *action);
 int			get_index(t_philo *philo);
+int			check_death(t_philo *philo);
 
 /*			Actions			*/
 int			philo_eat(t_philo *philo);
 int			take_forks(t_philo *philo);
 int			clean_forks(t_philo *philo);
+
 
 /*			Free / Error			*/
 void		free_elems(t_data *datas);
