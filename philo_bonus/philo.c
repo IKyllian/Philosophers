@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 09:17:46 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 09:33:09 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 10:31:40 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	wait_function(t_data *datas)
 	int	i;
 	int	count;
 
+	i = 0;
+	count = 0;
 	while (i < datas->philos_nb)
 	{
 		waitpid(-1, &status, 0);

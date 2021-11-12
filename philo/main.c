@@ -6,81 +6,25 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 08:42:10 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 14:34:47 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/philosophers.h"
-
-void	*philo_routine(void *param)
-{
-	int i;
-	t_philo *philo;
-
-	philo = (t_philo *)param;
-	i = 0;
-	if (philo->id % 2)
-		usleep(1000);
-	while ((!philo->datas->is_dead && philo->datas->nb_must_eat == -1)
-		|| (!philo->datas->is_dead && philo->datas->nb_must_eat != -1
-		&& philo->eat_counter < philo->datas->nb_must_eat))
-	{
-		if (take_forks(philo) == 1)
-			return (NULL);
-		if (philo_eat(philo))
-			return (NULL);
-		if (clean_forks(philo) == 1)
-			return (NULL);
-	}
-	return (NULL);
-}
-
-int		philo_is_dead(t_data *datas, int i)
-{
-	if (get_time(datas->philo[i].last_eat) > (uint64_t)datas->t_to_die)
-	{
-		if (philo_action(&datas->philo[i], " died") != 0)
-			return (1);
-		datas->is_dead = 1;
-		return (1);
-	}
-	return (0);
-}
-
-void	check_death(t_data *datas)
-{
-	int	i;
-	int	exit;
-
-	exit = 0;
-	while ((!datas->is_dead && datas->nb_must_eat == -1)
-		|| (!datas->is_dead && datas->nb_must_eat != -1
-		&& exit != datas->philos_nb))
-	{
-		i = 0;
-		exit = 0;
-		while (i < datas->philos_nb)
-		{
-			if (philo_is_dead(datas, i))
-				break ;
-			if (datas->nb_must_eat != -1)
-			{
-				if (datas->philo[i].eat_counter == datas->nb_must_eat)
-					exit++;
-			}
-			i++;
-			usleep(100);
-		}
-	}
-	if (datas->nb_must_eat != -1 && exit == datas->philos_nb)
-		printf("Each philosophers ate %i times\n", datas->nb_must_eat);
-}
 
 void	end_of_prog(t_data *datas)
 {
 	while (datas->philos_nb--)
 		pthread_join(datas->philo[datas->philos_nb].thread_philo, NULL);
 	free_elems(datas);
+}
+
+void	sync_main_prog(t_data *datas)
+{
+	gettimeofday(&datas->start_time, NULL);
+	datas->sync = 1;
+	while (datas->count < datas->philos_nb)
+		continue ;
 }
 
 int	main(int argc, char **argv)
@@ -95,15 +39,15 @@ int	main(int argc, char **argv)
 		{
 			if (init_tabs(&datas))
 				return (1);
-			gettimeofday(&datas.start_time, NULL);
 			if (create_philo_thread(&datas))
 				return (1);
+			sync_main_prog(&datas);
 			check_death(&datas);
 			end_of_prog(&datas);
 			return (0);
 		}
 		else
-			printf("Error: Arguments should be positives numbers and it must have 1 or more philos\n");
+			printf("Error: Arguments should be positives numbers\n");
 		return (1);
 	}
 	else

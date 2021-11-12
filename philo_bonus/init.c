@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:20 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 09:27:00 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 10:23:59 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ t_philo	init_struct_philo(int id, t_data *datas)
 
 	philo.id = id;
 	philo.eat_counter = 0;
-	philo.left_fork = id - 1;
-	if (id >= datas->philos_nb)
-		philo.right_fork = 0;
-	else
-		philo.right_fork = id;
 	philo.datas = datas;
 	return (philo);
 }

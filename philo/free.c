@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:11 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/09 08:52:36 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 09:40:45 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 void	destroy_mutex(t_data *datas)
 {
 	int		i;
-	int		ret;
 
 	i = 0;
-	ret = 0;
 	while (i < datas->philos_nb)
 	{
-		if ((ret = pthread_mutex_destroy(&datas->fork[i])) != 0)
-			printf("Error with mutex destroy\n");	
+		if (pthread_mutex_destroy(&datas->fork[i]) != 0)
+			printf("Error with mutex destroy\n");
 		i++;
 	}
 	if (pthread_mutex_destroy(&datas->message) != 0)

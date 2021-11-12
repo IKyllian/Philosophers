@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/12 09:43:49 by kdelport          #+#    #+#             */
+/*   Updated: 2021/11/12 14:23:58 by kdelport         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -29,7 +41,9 @@ typedef struct s_data
 	int				nb_must_eat;
 	pthread_mutex_t	*fork;
 	int				is_dead;
+	int				sync;
 	pthread_mutex_t	message;
+	int				count;
 }				t_data;
 
 /*			Init			*/
@@ -47,6 +61,7 @@ int			parsing(char **argv, t_data *datas);
 uint64_t	get_time(struct timeval last_eat);
 int			philo_action(t_philo *philo, char *action);
 int			get_index(t_philo *philo);
+void		check_death(t_data *datas);
 
 /*			Actions			*/
 int			philo_eat(t_philo *philo);

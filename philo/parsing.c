@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:32 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/09 08:52:00 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 09:43:13 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parsing(char **argv, t_data *datas)
 {
-	int ret;
+	int	ret;
 
 	ret = ft_atoi(argv[1]);
 	if (ret == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:48:41 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/09 09:33:23 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 12:58:50 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_putstr(char *str)
 void	ft_putnbr(uint64_t nb)
 {
 	char	c;
+
 	if (nb >= 10)
 	{
 		ft_putnbr(nb / 10);
@@ -81,7 +82,7 @@ int	philo_action(t_philo *philo, char *action)
 	if (!philo->datas->is_dead)
 	{
 		ft_putnbr(get_time(philo->datas->start_time));
-		ft_putstr("\t");
+		ft_putstr(" ");
 		ft_putnbr((uint64_t)philo->id);
 		ft_putstr(action);
 		ft_putstr("\n");

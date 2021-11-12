@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 09:34:47 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 09:35:19 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 10:24:06 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ typedef struct s_philo
 	int				id;
 	struct timeval	last_eat;
 	int				eat_counter;
-	int				right_fork;
-	int				left_fork;
 	pthread_t		thread_philo;
 	pid_t			pid;
 	struct s_data	*datas;
@@ -66,6 +64,8 @@ uint64_t	get_time(struct timeval timeval);
 int			philo_action(t_philo *philo, char *action);
 int			get_index(t_philo *philo);
 int			check_death(t_philo *philo);
+void		exit_child(t_data *datas, int i);
+int			wait_function(t_data *datas);
 
 /*			Actions			*/
 int			philo_eat(t_philo *philo);

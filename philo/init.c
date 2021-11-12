@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:20 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/09 08:51:59 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 14:19:16 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 t_philo	init_struct_philo(int id, t_data *datas)
 {
-	t_philo philo;
+	t_philo	philo;
 
 	philo.id = id;
 	philo.eat_counter = 0;
 	philo.left_fork = id - 1;
 	if (id >= datas->philos_nb)
-		philo.right_fork = 0;
+	{
+		if (datas->philos_nb == 1)
+			philo.right_fork = 1;
+		else
+			philo.right_fork = 0;
+	}
 	else
 		philo.right_fork = id;
 	philo.datas = datas;
@@ -29,7 +34,7 @@ t_philo	init_struct_philo(int id, t_data *datas)
 
 int	init_struct(t_data *datas)
 {
-	t_data new;
+	t_data	new;
 
 	new.philo = NULL;
 	new.t_to_die = 0;
@@ -38,6 +43,8 @@ int	init_struct(t_data *datas)
 	new.philos_nb = 0;
 	new.is_dead = 0;
 	new.nb_must_eat = -1;
+	new.sync = 0;
+	new.count = 0;
 	if (pthread_mutex_init(&new.message, NULL) != 0)
 	{
 		printf("Error with mutex init");
@@ -75,7 +82,7 @@ int	init_tabs(t_data *datas)
 		printf("Error: Alloc memory\n");
 		return (1);
 	}
-	datas->fork = malloc(sizeof(pthread_mutex_t) * datas->philos_nb);
+	datas->fork = malloc(sizeof(pthread_mutex_t) * datas->philos_nb + 1);
 	if (!datas->fork)
 	{
 		printf("Error: Alloc memory\n");
@@ -94,13 +101,12 @@ int	init_tabs(t_data *datas)
 
 int	create_philo_thread(t_data *datas)
 {
-	long	i;
+	int	i;
 
 	i = 0;
 	while (i < datas->philos_nb)
 	{
-		datas->philo[i].last_eat = datas->start_time;
-		if (pthread_create(&datas->philo[i].thread_philo, NULL, philo_routine,
+		if (pthread_create(&datas->philo[i].thread_philo, NULL, philo_routine, \
 			(void *)&datas->philo[i]) != 0)
 		{
 			printf("Error with the thread creation\n");
