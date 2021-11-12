@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:48:41 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 09:34:21 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 14:48:29 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_atoi(const char *nptr)
 		else
 			return (-1);
 	}
+	if (nbr < 0 || nbr > 2147483647)
+		return (-1);
 	return (nbr);
 }
 
@@ -78,7 +80,7 @@ int	philo_action(t_philo *philo, char *action)
 	if (!philo->datas->is_dead)
 	{
 		ft_putnbr(get_time(philo->datas->start_time));
-		ft_putstr("\t");
+		ft_putstr(" ");
 		ft_putnbr((uint64_t)philo->id);
 		ft_putstr(action);
 		ft_putstr("\n");

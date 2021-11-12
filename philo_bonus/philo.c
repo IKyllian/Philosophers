@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 09:17:46 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 10:31:40 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 15:43:47 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ int	wait_function(t_data *datas)
 
 void	exit_child(t_data *datas, int i)
 {
-	int	ret;
+	// int	ret;
 
 	while (1)
 	{
-		ret = check_death(&datas->philo[i]);
-		if (ret != 2)
-			exit(ret);
+		philo_routine(&datas->philo[i]);
+		// if (ret != 2)
+		// 	exit(ret);
 	}
 }

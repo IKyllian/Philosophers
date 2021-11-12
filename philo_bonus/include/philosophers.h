@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 09:34:47 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 10:24:06 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 16:07:01 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_data
 	uint64_t		t_to_die;
 	int				nb_must_eat;
 	sem_t			*fork;
+	sem_t			*sync;
 	int				is_dead;
 	sem_t			*message;
 }				t_data;
@@ -52,7 +53,8 @@ int			init_tabs(t_data *datas);
 int			init_struct(t_data *datas);
 t_philo		init_struct_philo(int id, t_data *datas);
 int			create_philo_thread(t_data *datas);
-void		*philo_routine(void *param);
+// void		*philo_routine(void *param);
+void	*philo_routine(t_philo	*philo);
 char		*get_name(char *name);
 
 /*			Parsing			*/
@@ -63,7 +65,8 @@ int			parsing(char **argv, t_data *datas);
 uint64_t	get_time(struct timeval timeval);
 int			philo_action(t_philo *philo, char *action);
 int			get_index(t_philo *philo);
-int			check_death(t_philo *philo);
+// int			check_death(t_philo *philo);
+void		*check_death(void *param);
 void		exit_child(t_data *datas, int i);
 int			wait_function(t_data *datas);
 
