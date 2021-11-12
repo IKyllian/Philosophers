@@ -1,12 +1,13 @@
 NAME = philosophers
 
-HEADER = philosophers.h
+HEADER = ./include/philosophers.h
 SRCS =  main.c \
 		error_free.c \
 		parsing.c \
 		init.c \
 		utils.c \
 		action.c \
+		philo.c
 
 OBJS = $(SRCS:.c=.o)
 

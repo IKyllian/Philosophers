@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/12 09:34:47 by kdelport          #+#    #+#             */
+/*   Updated: 2021/11/12 09:35:19 by kdelport         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -6,10 +18,10 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
-#include <semaphore.h>
-#include <errno.h>
-#include <signal.h>
-#include <string.h>
+# include <semaphore.h>
+# include <errno.h>
+# include <signal.h>
+# include <string.h>
 
 typedef struct s_philo
 {
@@ -59,7 +71,6 @@ int			check_death(t_philo *philo);
 int			philo_eat(t_philo *philo);
 int			take_forks(t_philo *philo);
 int			clean_forks(t_philo *philo);
-
 
 /*			Free / Error			*/
 void		free_elems(t_data *datas);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:48:41 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/09 10:03:59 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 09:34:21 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "./include/philosophers.h"
 
 int	ft_atoi(const char *nptr)
 {
@@ -45,6 +45,7 @@ void	ft_putstr(char *str)
 void	ft_putnbr(uint64_t nb)
 {
 	char	c;
+
 	if (nb >= 10)
 	{
 		ft_putnbr(nb / 10);
@@ -73,10 +74,7 @@ int	philo_action(t_philo *philo, char *action)
 {
 	errno = 0;
 	if (sem_wait(philo->datas->message) != 0)
-	{
 		printf("Error with sem wait | %s\n", strerror(errno));
-	
-	}
 	if (!philo->datas->is_dead)
 	{
 		ft_putnbr(get_time(philo->datas->start_time));
@@ -89,5 +87,3 @@ int	philo_action(t_philo *philo, char *action)
 		printf("Error with sem post\n");
 	return (0);
 }
-
-

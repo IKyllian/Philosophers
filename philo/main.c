@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/09 09:26:12 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/12 08:42:10 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int argc, char **argv)
 	{
 		if (init_struct(&datas) != 0)
 			return (1);
-		if (parsing(argv, &datas) && datas.philos_nb >= 2)
+		if (parsing(argv, &datas) && datas.philos_nb >= 1)
 		{
 			if (init_tabs(&datas))
 				return (1);
@@ -103,7 +103,7 @@ int	main(int argc, char **argv)
 			return (0);
 		}
 		else
-			printf("Error: Arguments should be positives numbers and it must have 2 or more philos\n");
+			printf("Error: Arguments should be positives numbers and it must have 1 or more philos\n");
 		return (1);
 	}
 	else
