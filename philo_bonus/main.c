@@ -3,67 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kdelport <kdelport@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:25 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 15:53:16 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/15 11:30:32 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/philosophers.h"
 
-// void	*philo_routine(void *param)
-// {
-// 	int		i;
-// 	t_philo	*philo;
-// 	uint64_t	time;
-
-// 	philo = (t_philo *)param;
-// 	i = 0;
-// 	if (philo->id % 2)
-// 	{
-// 		time = get_time(philo->datas->start_time) + philo->datas->t_to_sleep;
-// 		while (!philo->datas->is_dead
-// 			&& get_time(philo->datas->start_time) < time)
-// 			usleep(100);
-// 	}
-// 	while ((!philo->datas->is_dead && philo->datas->nb_must_eat == -1)
-// 		|| (!philo->datas->is_dead && philo->datas->nb_must_eat != -1
-// 			&& philo->eat_counter < philo->datas->nb_must_eat))
-// 	{
-// 		if (take_forks(philo) == 1)
-// 			return (NULL);
-// 		if (philo_eat(philo))
-// 			return (NULL);
-// 		if (clean_forks(philo) == 1)
-// 			return (NULL);
-// 	}
-// 	return (NULL);
-// }
-
-// int	check_death(t_philo *philo)
-// {		
-// 	if (get_time(philo->last_eat) > (uint64_t)philo->datas->t_to_die)
-// 	{
-// 		if (philo_action(philo, " died") != 0)
-// 			return (0);
-// 		philo->datas->is_dead = 1;
-// 		return (0);
-// 	}
-// 	if (philo->datas->nb_must_eat != -1)
-// 	{
-// 		if (philo->eat_counter == philo->datas->nb_must_eat)
-// 			return (1);
-// 	}
-// 	return (2);
-// }
-
 void	*philo_routine(t_philo	*philo)
 {
-	int		i;
 	uint64_t	time;
 
-	i = 0;
 	if (philo->id % 2)
 	{
 		time = get_time(philo->datas->start_time) + philo->datas->t_to_sleep;
@@ -106,7 +58,6 @@ void	*check_death(void *param)
 		}
 		usleep(50);
 	}
-	
 	exit(2);
 }
 
