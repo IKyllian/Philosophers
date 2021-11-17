@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:49:54 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 14:11:25 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/17 08:28:31 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,9 @@ int	philo_eat(t_philo *philo)
 int	take_forks(t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->datas->fork[philo->left_fork]) != 0)
-	{
-		printf("UNLOCK FAILED\n");
 		return (1);
-	}
 	if (philo_action(philo, " has taken a fork") != 0)
-	{
-		printf("UNLOCK FAILED\n");
 		return (1);
-	}
 	if (pthread_mutex_lock(&philo->datas->fork[philo->right_fork]) != 0)
 		return (1);
 	if (philo_action(philo, " has taken a fork") != 0)
@@ -50,15 +44,9 @@ int	clean_forks(t_philo *philo)
 	uint64_t	time;
 
 	if (pthread_mutex_unlock(&philo->datas->fork[philo->left_fork]) != 0)
-	{
-		printf("UNLOCK FAILED\n");
 		return (1);
-	}
 	if (pthread_mutex_unlock(&philo->datas->fork[philo->right_fork]) != 0)
-	{
-		printf("UNLOCK FAILED\n");
 		return (1);
-	}
 	if (philo->eat_counter == philo->datas->nb_must_eat)
 		return (0);
 	if (philo_action(philo, " is sleeping") != 0)

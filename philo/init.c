@@ -6,7 +6,7 @@
 /*   By: kdelport <kdelport@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 13:50:20 by kdelport          #+#    #+#             */
-/*   Updated: 2021/11/12 14:19:16 by kdelport         ###   ########.fr       */
+/*   Updated: 2021/11/17 08:29:04 by kdelport         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	init_tabs(t_data *datas)
 		printf("Error: Alloc memory\n");
 		return (1);
 	}
-	datas->fork = malloc(sizeof(pthread_mutex_t) * datas->philos_nb + 1);
+	datas->fork = malloc(sizeof(pthread_mutex_t) * (datas->philos_nb + 1));
 	if (!datas->fork)
 	{
 		printf("Error: Alloc memory\n");
