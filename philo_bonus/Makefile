@@ -1,4 +1,4 @@
-NAME = philosophers
+NAME = philo_bonus
 
 HEADER = ./include/philosophers.h
 SRCS =  main.c \
